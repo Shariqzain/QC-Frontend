@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import SignupPage from './pages/SignupPage';
 import VolunteerSignupPage from './pages/VolunteerSignupPage';
@@ -21,6 +20,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import LearnMorePage from './pages/LearnMorePage';
 import { AnimatePresence } from 'framer-motion';
 import { PageTransition } from './components/PageTransition';
+import Footer from './components/Footer';
 
 const App: React.FC = () => {
   return (
@@ -30,7 +30,7 @@ const App: React.FC = () => {
           <ThemeProvider>
             <Router>
               <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col">
-                <Navbar />
+                <Navbar />  
                 <main className="flex-grow">
                   <Routes>
                     <Route path="/" element={<HomePage />} />

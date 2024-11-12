@@ -4,7 +4,7 @@ import { ArrowLeft, Upload } from 'lucide-react';
 import { register, RegisterData } from '../api';
 import { useSpotlight } from '../hooks/useSpotlight';
 
-const VolunteerSignupPage: React.FC = () => {
+const VolunteerSignupPage: React.FC = () =>  {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',

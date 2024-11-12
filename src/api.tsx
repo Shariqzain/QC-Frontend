@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://139.84.136.164';
+const BASE_URL = 'http://localhost:8000';
 // Update the axios instance configuration
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || `${BASE_URL}`,
+  baseURL: import.meta.env.VITE_API_URL || BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -73,22 +73,12 @@ export interface RegisterData {
   profile_image?: string;
 }
 
-export const getOpportunities = async () => {
+export const getOpportunities = async (): Promise<Opportunity[]> => {
   try {
     const response = await axiosInstance.get('/api/opportunities/');
     return response.data;
   } catch (error) {
     console.error("Error fetching opportunities:", error);
-    throw error;
-  }
-};
-
-export const applyForOpportunity = async (opportunityId: number) => {
-  try {
-    const response = await axiosInstance.post(`/api/opportunities/${opportunityId}/apply/`);
-    return response.data;
-  } catch (error) {
-    console.error("Error applying for opportunity:", error);
     throw error;
   }
 };
@@ -395,6 +385,16 @@ export const createOpportunity = async (data: OpportunityFormData) => {
   }
 };
 
+export const applyForOpportunity = async (opportunityId: number): Promise<void> => {
+  try {
+    const response = await axiosInstance.post(`/api/opportunities/${opportunityId}/apply/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error applying for opportunity:", error);
+    throw error;
+  }
+};
+
 // Add this line to export the instance
 export const api = axiosInstance;
 
@@ -408,19 +408,32 @@ export interface OrganizationProfile {
   email: string;
 }
 
-// Add these interfaces
+// Update the Opportunity interface
 export interface Opportunity {
   id: number;
   title: string;
   description: string;
-  organization: {
-    id: number;
-    name: string;
-  };
   date: string;
   location: string;
   volunteers_needed: number;
   volunteers_registered: number;
   skills_required: string[];
   created_at: string;
+  organization: {
+    id: number;
+    name: string;
+  };
+  applied?: boolean;
+  applications_count?: number;  // Add this field
 }
+
+// Add a new function to withdraw application
+export const withdrawFromOpportunity = async (opportunityId: number): Promise<void> => {
+  try {
+    const response = await axiosInstance.post(`/api/opportunities/${opportunityId}/withdraw/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error withdrawing from opportunity:", error);
+    throw error;
+  }
+};
