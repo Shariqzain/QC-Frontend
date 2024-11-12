@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8000';
+const BASE_URL = 'http://139.84.136.164';
 // Update the axios instance configuration
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL || `${BASE_URL}`,
