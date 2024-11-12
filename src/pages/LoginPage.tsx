@@ -1,33 +1,56 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { UserPlus, Building2 } from 'lucide-react'
 import { motion } from 'framer-motion';
 import { fadeInUp, fadeIn } from '../components/animations/AnimationConfig';
 
 const LoginPage: React.FC = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const container = document.querySelector('.login-container');
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        setMousePosition({ x, y });
+      }
+    };
+
+    const container = document.querySelector('.login-container');
+    container?.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      container?.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  const getGradientStyle = (mouseX: number, mouseY: number) => ({
+    background: `
+      radial-gradient(
+        circle at ${mouseX}% ${mouseY}%, 
+        rgb(30, 64, 175) 0%,
+        rgba(30, 58, 138, 0.9) 20%,
+        rgba(23, 37, 84, 0.8) 40%,
+        rgba(15, 23, 42, 0.9) 60%,
+        rgb(15, 23, 42) 80%
+      ),
+      linear-gradient(
+        45deg,
+        rgb(30, 58, 138) 0%,
+        rgb(23, 37, 84) 50%,
+        rgb(15, 23, 42) 100%
+      )
+    `
+  });
+
   return (
     <motion.div
       initial="hidden"
       animate="visible"
-      className="min-h-screen flex items-center justify-center"
-      style={{
-        background: `
-          radial-gradient(
-            circle at 81.4952% 5.51724%, 
-            rgb(30, 64, 175) 0%, 
-            rgba(30, 58, 138, 0.9) 20%, 
-            rgba(23, 37, 84, 0.8) 40%, 
-            rgba(15, 23, 42, 0.9) 60%, 
-            rgb(15, 23, 42) 80%
-          ),
-          linear-gradient(
-            45deg, 
-            rgb(30, 58, 138) 0%, 
-            rgb(23, 37, 84) 50%, 
-            rgb(15, 23, 42) 100%
-          )
-        `
-      }}
+      className="login-container min-h-screen flex items-center justify-center"
+      style={getGradientStyle(mousePosition.x, mousePosition.y)}
     >
       <motion.div 
         variants={fadeInUp}

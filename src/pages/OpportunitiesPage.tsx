@@ -33,7 +33,9 @@ const OpportunitiesPage: React.FC = () => {
               key={opportunity.id}
               variants={slideInFromRight}
               transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-lg shadow p-6"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-gray-800/30 backdrop-blur-md rounded-lg p-6 border border-gray-700 hover:border-blue-500 hover:shadow-xl transition-all duration-300 shadow-md"
             >
               {/* Opportunity card content */}
             </motion.div>
@@ -42,4 +44,6 @@ const OpportunitiesPage: React.FC = () => {
       </motion.div>
     </motion.div>
   );
-}; 
+};
+
+export default OpportunitiesPage;

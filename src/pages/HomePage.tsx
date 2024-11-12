@@ -106,6 +106,12 @@ const HomePage: React.FC = () => {
         <div 
           className="cta-section relative overflow-hidden rounded-lg"
           style={getGradientStyle(ctaMousePosition.x, ctaMousePosition.y)}
+          onClick={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            addRipple(x, y);
+          }}
         >
           <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
             <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
@@ -128,21 +134,32 @@ const HomePage: React.FC = () => {
     }
 
     return (
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-        <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
-          <span className="block">Ready to make a difference?</span>
-          <span className="block text-blue-600">Join VolunMatch today.</span>
-        </h2>
-        <div className="mt-8 flex justify-center">
-          <div className="inline-flex rounded-md shadow">
-            <Link to="/signup" className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-              Get started
-            </Link>
-          </div>
-          <div className="ml-3 inline-flex">
-            <Link to="/about" className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200">
-              Learn more
-            </Link>
+      <div 
+        className="cta-section relative overflow-hidden rounded-lg"
+        style={ctaMousePosition.x === 50 ? initialGradientStyle : getGradientStyle(ctaMousePosition.x, ctaMousePosition.y)}
+        onClick={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          addRipple(x, y);
+        }}
+      >
+        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+          <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+            <span className="block">Ready to make a difference?</span>
+            <span className="block text-blue-600">Join VolunMatch today.</span>
+          </h2>
+          <div className="mt-8 flex justify-center">
+            <div className="inline-flex rounded-md shadow">
+              <Link to="/signup" className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                Get started
+              </Link>
+            </div>
+            <div className="ml-3 inline-flex">
+              <Link to="/about" className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200">
+                Learn more
+              </Link>
+            </div>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import SignupPage from './pages/SignupPage';
 import VolunteerSignupPage from './pages/VolunteerSignupPage';
@@ -28,9 +29,9 @@ const App: React.FC = () => {
         <AuthProvider>
           <ThemeProvider>
             <Router>
-              <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+              <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col">
                 <Navbar />
-                <main>
+                <main className="flex-grow">
                   <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/signup" element={<SignupPage />} />
@@ -49,6 +50,7 @@ const App: React.FC = () => {
                     <Route path="/about" element={<LearnMorePage />} />
                   </Routes>
                 </main>
+                <Footer />
               </div>
             </Router>
           </ThemeProvider>

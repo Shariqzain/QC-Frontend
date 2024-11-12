@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Calendar, MapPin, Users, Filter, Search, X } from 'lucide-react';
+import { Calendar, MapPin, Users, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getOpportunities, applyForOpportunity, type Opportunity } from '../api';
+import { useSpotlight } from '../hooks/useSpotlight';
 
 const VolunteerDashboard: React.FC = () => {
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
@@ -16,6 +17,8 @@ const VolunteerDashboard: React.FC = () => {
     message: string;
     type: 'success' | 'error';
   } | null>(null);
+
+  const { mousePosition, getGradientStyle, initialGradientStyle } = useSpotlight();
 
   useEffect(() => {
     loadOpportunities();
@@ -64,24 +67,7 @@ const VolunteerDashboard: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen"
-        style={{
-          background: `
-            radial-gradient(
-              circle at 81.4952% 5.51724%, 
-              rgb(30, 64, 175) 0%, 
-              rgba(30, 58, 138, 0.9) 20%, 
-              rgba(23, 37, 84, 0.8) 40%, 
-              rgba(15, 23, 42, 0.9) 60%, 
-              rgb(15, 23, 42) 80%
-            ),
-            linear-gradient(
-              45deg, 
-              rgb(30, 58, 138) 0%, 
-              rgb(23, 37, 84) 50%, 
-              rgb(15, 23, 42) 100%
-            )
-          `
-        }}>
+        style={initialGradientStyle}>
         <div className="w-12 h-12 border-4 border-blue-400 rounded-full border-t-transparent animate-spin" />
       </div>
     );
@@ -92,24 +78,7 @@ const VolunteerDashboard: React.FC = () => {
       initial="hidden"
       animate="visible"
       className="min-h-screen"
-      style={{
-        background: `
-          radial-gradient(
-            circle at 81.4952% 5.51724%, 
-            rgb(30, 64, 175) 0%, 
-            rgba(30, 58, 138, 0.9) 20%, 
-            rgba(23, 37, 84, 0.8) 40%, 
-            rgba(15, 23, 42, 0.9) 60%, 
-            rgb(15, 23, 42) 80%
-          ),
-          linear-gradient(
-            45deg, 
-            rgb(30, 58, 138) 0%, 
-            rgb(23, 37, 84) 50%, 
-            rgb(15, 23, 42) 100%
-          )
-        `
-      }}
+      style={getGradientStyle(mousePosition.x, mousePosition.y)}
     >
       {notification && (
         <div className={`fixed top-4 right-4 p-4 rounded-lg shadow-lg ${
@@ -129,7 +98,7 @@ const VolunteerDashboard: React.FC = () => {
 
         {/* Filters */}
         <motion.div className="px-4 sm:px-6 mb-6">
-          <div className="bg-gray-800/30 backdrop-blur-md rounded-lg p-4 border border-gray-700">
+          <div className="bg-gray-800/30 backdrop-blur-md rounded-lg p-4 border border-gray-700 shadow-md hover:shadow-lg transition-shadow duration-300">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300">Search</label>
@@ -198,7 +167,8 @@ const VolunteerDashboard: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-gray-800/30 backdrop-blur-md rounded-lg p-6 border border-gray-700"
+              whileHover={{ scale: 1.02 }}
+              className="bg-gray-800/30 backdrop-blur-md rounded-lg p-6 border border-gray-700 shadow-md hover:shadow-lg transition-shadow duration-300"
             >
               <h3 className="text-lg font-medium text-white mb-2">{opportunity.title}</h3>
               <p className="text-gray-300 mb-4">{opportunity.description}</p>

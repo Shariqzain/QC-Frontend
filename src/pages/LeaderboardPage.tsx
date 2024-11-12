@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Trophy, Clock, Star } from 'lucide-react'
 import { motion } from 'framer-motion';
 import { getLeaderboard, Volunteer } from '../api';
+import { useSpotlight } from '../hooks/useSpotlight';
 
 const LeaderboardPage: React.FC = () => {
   const [leaderboardData, setLeaderboardData] = useState<Volunteer[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { mousePosition, getGradientStyle, initialGradientStyle } = useSpotlight();
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
@@ -47,24 +50,8 @@ const LeaderboardPage: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen"
-        style={{
-          background: `
-            radial-gradient(
-              circle at 81.4952% 5.51724%, 
-              rgb(30, 64, 175) 0%, 
-              rgba(30, 58, 138, 0.9) 20%, 
-              rgba(23, 37, 84, 0.8) 40%, 
-              rgba(15, 23, 42, 0.9) 60%, 
-              rgb(15, 23, 42) 80%
-            ),
-            linear-gradient(
-              45deg, 
-              rgb(30, 58, 138) 0%, 
-              rgb(23, 37, 84) 50%, 
-              rgb(15, 23, 42) 100%
-            )
-          `
-        }}>
+        style={mousePosition.x === 50 ? initialGradientStyle : getGradientStyle(mousePosition.x, mousePosition.y)}
+      >
         <div className="w-12 h-12 border-4 border-blue-400 rounded-full border-t-transparent animate-spin" />
       </div>
     );
@@ -75,24 +62,7 @@ const LeaderboardPage: React.FC = () => {
       initial="hidden"
       animate="visible"
       className="min-h-screen"
-      style={{
-        background: `
-          radial-gradient(
-            circle at 81.4952% 5.51724%, 
-            rgb(30, 64, 175) 0%, 
-            rgba(30, 58, 138, 0.9) 20%, 
-            rgba(23, 37, 84, 0.8) 40%, 
-            rgba(15, 23, 42, 0.9) 60%, 
-            rgb(15, 23, 42) 80%
-          ),
-          linear-gradient(
-            45deg, 
-            rgb(30, 58, 138) 0%, 
-            rgb(23, 37, 84) 50%, 
-            rgb(15, 23, 42) 100%
-          )
-        `
-      }}
+      style={mousePosition.x === 50 ? initialGradientStyle : getGradientStyle(mousePosition.x, mousePosition.y)}
     >
       <motion.div 
         variants={staggerContainer}
@@ -109,10 +79,10 @@ const LeaderboardPage: React.FC = () => {
         <motion.div 
           variants={fadeInUp}
           transition={{ delay: 0.4 }}
-          className="bg-gray-800/30 backdrop-blur-md shadow overflow-hidden sm:rounded-lg border border-gray-700"
+          className="bg-gray-800/30 backdrop-blur-md shadow overflow-hidden sm:rounded-lg border border-gray-700 shadow-lg"
         >
-          <table className="min-w-full divide-y divide-gray-700">
-            <thead className="bg-gray-800/50">
+          <table className="min-w-full divide-y divide-gray-700 shadow-md">
+            <thead className="bg-gray-800/50 shadow-sm">
               <tr>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                   Rank
@@ -137,8 +107,13 @@ const LeaderboardPage: React.FC = () => {
                   key={volunteer.id}
                   variants={fadeInUp}
                   transition={{ delay: 0.6 + (index * 0.1) }}
-                  whileHover={{ backgroundColor: "rgba(59, 130, 246, 0.1)" }}
-                  className={index < 3 ? 'bg-yellow-900/30' : 'bg-gray-800/30'}
+                  whileHover={{ 
+                    scale: 1.01, 
+                    backgroundColor: "rgba(59, 130, 246, 0.1)",
+                    transition: { duration: 0.2 }
+                  }}
+                  whileTap={{ scale: 0.99 }}
+                  className={`${index < 3 ? 'bg-yellow-900/30' : 'bg-gray-800/30'} transition-all duration-200 hover:shadow-lg`}
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">

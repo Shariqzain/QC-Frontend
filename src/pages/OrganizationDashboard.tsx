@@ -280,10 +280,10 @@ const OrganizationDashboard: React.FC = () => {
               <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Volunteer Performance</h2>
               <motion.div 
                 variants={staggerChildren}
-                className="overflow-x-auto"
+                className="overflow-x-auto shadow-lg"
               >
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead className="bg-gray-50 dark:bg-gray-700">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 shadow-md">
+                  <thead className="bg-gray-50 dark:bg-gray-700 shadow-sm">
                     <tr>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Name</th>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Hours</th>
@@ -300,7 +300,8 @@ const OrganizationDashboard: React.FC = () => {
                         key={index}
                         variants={fadeInUp}
                         transition={{ delay: 1.4 + (index * 0.1) }}
-                        whileHover={{ backgroundColor: "rgba(59, 130, 246, 0.05)" }}
+                        whileHover={{ scale: 1.01, backgroundColor: "rgba(59, 130, 246, 0.05)" }}
+                        className="transition-all duration-200 hover:shadow-lg"
                       >
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Volunteer {index + 1}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{20 - index * 2} hours</td>
@@ -324,6 +325,7 @@ const OrganizationDashboard: React.FC = () => {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onSubmit={handleAddOpportunity}
+          className="shadow-xl"
         />
       </div>
     </motion.div>
