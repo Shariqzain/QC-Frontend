@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://9fd7-2401-c080-3000-306e-5400-5ff-fe2a-6f5.ngrok-free.app';
+const BASE_URL = 'https://37ba-2401-c080-3000-306e-5400-5ff-fe2a-6f5.ngrok-free.app';
 // Update the axios instance configuration
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL || BASE_URL,
