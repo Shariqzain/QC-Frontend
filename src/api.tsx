@@ -7,6 +7,7 @@ const axiosInstance = axios.create({
   headers: {
     'User-Agent': 'Custom-User-Agent-Name',
     'Content-Type': 'application/json',
+    'Accept': 'application/json'
   },
 });
 
