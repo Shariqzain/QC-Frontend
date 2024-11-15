@@ -84,12 +84,12 @@ const LeaderboardPage: React.FC = () => {
     >
       <motion.div 
         variants={staggerContainer}
-        className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8"
+        className="max-w-7xl mx-auto py-4 sm:py-6 px-2 sm:px-6 lg:px-8"
       >
         <motion.h1 
           variants={fadeInUp}
           transition={{ delay: 0.2 }}
-          className="text-3xl font-bold text-white mb-6"
+          className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6 px-2 sm:px-0"
         >
           Global Leaderboard
         </motion.h1>
@@ -97,81 +97,86 @@ const LeaderboardPage: React.FC = () => {
         <motion.div 
           variants={fadeInUp}
           transition={{ delay: 0.4 }}
-          className="bg-gray-800/30 backdrop-blur-md shadow overflow-hidden sm:rounded-lg border border-gray-700 shadow-lg"
+          className="bg-gray-800/30 backdrop-blur-md shadow sm:rounded-lg border border-gray-700 shadow-lg overflow-hidden"
         >
-          <table className="min-w-full divide-y divide-gray-700 shadow-md">
-            <thead className="bg-gray-800/50 shadow-sm">
-              <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                  Rank
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                  Volunteer
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                  Hours
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                  Tasks Completed
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                  Rating
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-700">
-              {leaderboardData.map((volunteer, index) => (
-                <motion.tr 
-                  key={volunteer.id}
-                  variants={fadeInUp}
-                  transition={{ delay: 0.6 + (index * 0.1) }}
-                  whileHover={{ 
-                    scale: 1.01, 
-                    backgroundColor: "rgba(59, 130, 246, 0.1)",
-                    transition: { duration: 0.2 }
-                  }}
-                  whileTap={{ scale: 0.99 }}
-                  className={`${index < 3 ? 'bg-yellow-900/30' : 'bg-gray-800/30'} transition-all duration-200 hover:shadow-lg`}
-                >
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <span className="text-sm font-medium text-white">{index + 1}</span>
-                      {index < 3 && <Trophy className="ml-2 h-5 w-5 text-yellow-400" />}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <img 
-                          className="h-10 w-10 rounded-full ring-2 ring-blue-500/50" 
-                          src={`https://ui-avatars.com/api/?name=${volunteer.name}&background=random`} 
-                          alt="" 
-                        />
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-700 shadow-md">
+              <thead className="bg-gray-800/50 shadow-sm">
+                <tr>
+                  <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                    #
+                  </th>
+                  <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                    Volunteer
+                  </th>
+                  <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                    <span className="hidden sm:inline">Hours</span>
+                    <Clock className="inline sm:hidden h-4 w-4" />
+                  </th>
+                  <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                    <span className="hidden sm:inline">Tasks</span>
+                    <Trophy className="inline sm:hidden h-4 w-4" />
+                  </th>
+                  <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                    <span className="hidden sm:inline">Rating</span>
+                    <Star className="inline sm:hidden h-4 w-4" />
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-700">
+                {leaderboardData.map((volunteer, index) => (
+                  <motion.tr 
+                    key={volunteer.id}
+                    variants={fadeInUp}
+                    transition={{ delay: 0.6 + (index * 0.1) }}
+                    whileHover={{ 
+                      scale: 1.01, 
+                      backgroundColor: "rgba(59, 130, 246, 0.1)",
+                      transition: { duration: 0.2 }
+                    }}
+                    whileTap={{ scale: 0.99 }}
+                    className={`${index < 3 ? 'bg-yellow-900/30' : 'bg-gray-800/30'} transition-all duration-200 hover:shadow-lg`}
+                  >
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <span className="text-sm font-medium text-white">{index + 1}</span>
+                        {index < 3 && <Trophy className="ml-2 h-4 sm:h-5 w-4 sm:w-5 text-yellow-400" />}
                       </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-white">{volunteer.name}</div>
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10">
+                          <img 
+                            className="h-8 w-8 sm:h-10 sm:w-10 rounded-full ring-2 ring-blue-500/50" 
+                            src={`https://ui-avatars.com/api/?name=${volunteer.name}&background=random`} 
+                            alt="" 
+                          />
+                        </div>
+                        <div className="ml-2 sm:ml-4">
+                          <div className="text-xs sm:text-sm font-medium text-white">{volunteer.name}</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center text-sm text-gray-300">
-                      <Clock className="mr-2 h-5 w-5 text-blue-400" />
-                      {volunteer.hours}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {volunteer.tasks}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center text-sm text-gray-300">
-                      <Star className="mr-1 h-5 w-5 text-yellow-400" />
-                      {volunteer.rating.toFixed(1)}
-                    </div>
-                  </td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center text-xs sm:text-sm text-gray-300">
+                        <Clock className="mr-1 sm:mr-2 h-4 sm:h-5 w-4 sm:w-5 text-blue-400" />
+                        {volunteer.hours}
+                      </div>
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-300">
+                      {volunteer.tasks}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center text-xs sm:text-sm text-gray-300">
+                        <Star className="mr-1 h-4 sm:h-5 w-4 sm:w-5 text-yellow-400" />
+                        {volunteer.rating.toFixed(1)}
+                      </div>
+                    </td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </motion.div>
       </motion.div>
     </motion.div>
