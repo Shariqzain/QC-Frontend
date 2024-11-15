@@ -358,7 +358,7 @@ const VolunteerDashboard: React.FC = () => {
                       }
                     }}
                     className={`mt-4 w-full px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white
-                      ${opportunity.volunteers_registered >= opportunity.volunteers_needed 
+                      ${opportunity.volunteers_registered >= opportunity.volunteers_needed && !applicationStatuses[opportunity.id]
                         ? 'bg-gray-500 cursor-not-allowed' 
                         : withdrawalConfirm === opportunity.id
                         ? 'bg-red-600 hover:bg-red-700'
@@ -366,9 +366,9 @@ const VolunteerDashboard: React.FC = () => {
                         ? 'bg-green-600'
                         : 'bg-blue-600 hover:bg-blue-700'
                       } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
-                    disabled={opportunity.volunteers_registered >= opportunity.volunteers_needed}
+                    disabled={opportunity.volunteers_registered >= opportunity.volunteers_needed && !applicationStatuses[opportunity.id]}
                   >
-                    {opportunity.volunteers_registered >= opportunity.volunteers_needed 
+                    {opportunity.volunteers_registered >= opportunity.volunteers_needed && !applicationStatuses[opportunity.id]
                       ? 'Opportunity Full'
                       : withdrawalConfirm === opportunity.id
                       ? 'Confirm Withdrawal'
