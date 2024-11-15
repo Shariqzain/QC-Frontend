@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Trophy, Clock, Star } from 'lucide-react'
+import { Trophy, Clock, Star, Crown, Award, Medal } from 'lucide-react'
 import { motion } from 'framer-motion';
 import { getLeaderboard, Volunteer } from '../api';
 import { useSpotlight } from '../hooks/useSpotlight';
@@ -43,16 +43,34 @@ const LeaderboardPage: React.FC = () => {
         setIsLoading(false);
       }
     };
-
     fetchLeaderboardData();
   }, []);
+
+  const LoadingSkeleton = () => (
+    <div className="space-y-4">
+      <div className="h-8 w-48 bg-gray-800/50 rounded animate-pulse" />
+      <div className="bg-gray-800/30 backdrop-blur-md rounded-lg border border-gray-700">
+        <div className="space-y-4 p-4">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="flex items-center space-x-4">
+              <div className="h-10 w-10 rounded-full bg-gray-800/50 animate-pulse" />
+              <div className="flex-1 space-y-2">
+                <div className="h-4 w-1/4 bg-gray-800/50 rounded animate-pulse" />
+                <div className="h-3 w-1/3 bg-gray-800/50 rounded animate-pulse" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen"
         style={mousePosition.x === 50 ? initialGradientStyle : getGradientStyle(mousePosition.x, mousePosition.y)}
       >
-        <div className="w-12 h-12 border-4 border-blue-400 rounded-full border-t-transparent animate-spin" />
+        <LoadingSkeleton />
       </div>
     );
   }
