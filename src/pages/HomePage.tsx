@@ -121,10 +121,10 @@ const HomePage: React.FC = () => {
             <div className="mt-8 flex justify-center">
               <div className="inline-flex rounded-md shadow">
                 <Link 
-                  to={userType === 'volunteer' ? '/opportunities' : '/organization/opportunities'} 
+                  to={userType === 'volunteer' ? '/community' : '/organization/opportunities'} 
                   className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
                 >
-                  {userType === 'volunteer' ? 'Browse Opportunities' : 'Manage Opportunities'}
+                  {userType === 'volunteer' ? 'View Community' : 'Manage Opportunities'}
                 </Link>
               </div>
             </div>
