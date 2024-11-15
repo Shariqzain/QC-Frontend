@@ -32,6 +32,8 @@ const VolunteerDashboard: React.FC = () => {
     message: string;
     type: 'success' | 'error';
   } | null>(null);
+  const [applicationStatuses, setApplicationStatuses] = useState<{[key: number]: boolean}>({});
+  const [withdrawalConfirm, setWithdrawalConfirm] = useState<number | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [ripples, setRipples] = useState<Array<{ x: number; y: number; id: number }>>([]);
   const [appliedOpportunities, setAppliedOpportunities] = useState<Set<number>>(new Set());
@@ -84,46 +86,22 @@ const VolunteerDashboard: React.FC = () => {
 
   const handleApply = async (opportunityId: number) => {
     try {
-      if (appliedOpportunities.has(opportunityId)) {
-        // Add confirmation dialog
-        const confirmWithdraw = window.confirm(
-          'Are you sure you want to withdraw your application?'
-        );
-        
-        if (!confirmWithdraw) {
-          return; // Exit if user cancels
-        }
-
-        // If confirmed, withdraw the application
-        await withdrawFromOpportunity(opportunityId);
-        setAppliedOpportunities(prev => {
-          const newSet = new Set(prev);
-          newSet.delete(opportunityId);
-          return newSet;
-        });
+      const response = await applyForOpportunity(opportunityId);
+      
+      if (response.status === 'withdrawn') {
+        setApplicationStatuses(prev => ({...prev, [opportunityId]: false}));
+        setWithdrawalConfirm(null);
         showNotification('Application withdrawn successfully', 'success');
       } else {
-        // If not applied, submit application
-        await applyForOpportunity(opportunityId);
-        setAppliedOpportunities(prev => new Set([...prev, opportunityId]));
-        showNotification('Application submitted successfully', 'success');
+        setApplicationStatuses(prev => ({...prev, [opportunityId]: true}));
+        showNotification('Application submitted successfully!', 'success');
       }
-      // Refresh the opportunities list
-      loadOpportunities();
+      
+      loadOpportunities(); // Refresh the list
     } catch (error) {
-      console.error('Error handling application:', error);
-      showNotification(
-        appliedOpportunities.has(opportunityId)
-          ? 'Failed to withdraw application'
-          : 'Failed to submit application', 
-        'error'
-      );
+      console.error('Error:', error);
+      showNotification('Operation failed', 'error');
     }
-  };
-
-  const showNotification = (message: string, type: 'success' | 'error') => {
-    setNotification({ message, type });
-    setTimeout(() => setNotification(null), 3000);
   };
 
   const filteredOpportunities = opportunities.filter(opp => {
@@ -351,20 +329,33 @@ const VolunteerDashboard: React.FC = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => handleApply(opportunity.id)}
-                    className={`mt-4 w-full px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium 
-                      ${appliedOpportunities.has(opportunity.id)
-                        ? 'text-green-100 bg-green-600 hover:bg-green-700'
-                        : 'text-white bg-blue-600 hover:bg-blue-700'
-                      } 
-                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200`}
+                    onClick={() => {
+                      if (withdrawalConfirm === opportunity.id) {
+                        handleApply(opportunity.id);
+                      } else if (applicationStatuses[opportunity.id]) {
+                        setWithdrawalConfirm(opportunity.id);
+                      } else {
+                        handleApply(opportunity.id);
+                      }
+                    }}
+                    className={`mt-4 w-full px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white
+                      ${opportunity.volunteers_registered >= opportunity.volunteers_needed 
+                        ? 'bg-gray-500 cursor-not-allowed' 
+                        : withdrawalConfirm === opportunity.id
+                        ? 'bg-red-600 hover:bg-red-700'
+                        : applicationStatuses[opportunity.id]
+                        ? 'bg-green-600'
+                        : 'bg-blue-600 hover:bg-blue-700'
+                      } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
                     disabled={opportunity.volunteers_registered >= opportunity.volunteers_needed}
                   >
                     {opportunity.volunteers_registered >= opportunity.volunteers_needed 
                       ? 'Opportunity Full'
-                      : appliedOpportunities.has(opportunity.id)
-                        ? 'Applied!'
-                        : 'Apply Now'
+                      : withdrawalConfirm === opportunity.id
+                      ? 'Confirm Withdrawal'
+                      : applicationStatuses[opportunity.id]
+                      ? 'Applied'
+                      : 'Apply Now'
                     }
                   </motion.button>
                 </motion.div>
