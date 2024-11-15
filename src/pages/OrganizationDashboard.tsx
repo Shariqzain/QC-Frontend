@@ -6,6 +6,7 @@ import OpportunityModal from '../components/OpportunityModal';
 import { createOpportunity } from '../api';
 import { Link } from 'react-router-dom'
 import { useSpotlight } from '../hooks/useSpotlight';
+import OpportunityDetailsModal from '../components/OpportunityDetailsModal';
 
 interface RecommendedVolunteer {
   volunteer_id: number;
@@ -37,6 +38,8 @@ interface OpportunityFormData {
 const OrganizationDashboard: React.FC = () => {
   const { mousePosition, getGradientStyle, initialGradientStyle } = useSpotlight();
   const [opportunities, setOpportunities] = useState<Opportunity[]>([])
+  const [selectedOpportunity, setSelectedOpportunity] = useState<Opportunity | null>(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
 
   const [recommendedVolunteers, setRecommendedVolunteers] = useState<RecommendedVolunteer[]>([])
   const [loading, setLoading] = useState(true)
@@ -183,7 +186,12 @@ const OrganizationDashboard: React.FC = () => {
                             {opportunity.volunteers_registered}/{opportunity.volunteers_needed}
                           </div>
                           <Link
-                            to={`/opportunities/${opportunity.id}`}
+                            to="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setSelectedOpportunity(opportunity);
+                              setIsDetailsModalOpen(true);
+                            }}
                             className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-600 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                           >
                             View Details
@@ -327,6 +335,13 @@ const OrganizationDashboard: React.FC = () => {
           onSubmit={handleAddOpportunity}
           className="shadow-xl"
         />
+        {selectedOpportunity && (
+          <OpportunityDetailsModal
+            isOpen={isDetailsModalOpen}
+            onClose={() => setIsDetailsModalOpen(false)}
+            opportunity={selectedOpportunity}
+          />
+        )}
       </div>
     </motion.div>
   );
