@@ -17,6 +17,7 @@ const VolunteerSignupPage: React.FC = () =>  {
   });
   const [error, setError] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [isGoogleSignupComingSoon, setGoogleSignupComingSoon] = useState(false); // New state for "Coming Soon"
   const { mousePosition, getGradientStyle, initialGradientStyle } = useSpotlight();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -88,9 +89,12 @@ const VolunteerSignupPage: React.FC = () =>  {
     }
   }
 
+  // New handler to show "Coming Soon" message
   const handleGoogleSignup = () => {
-    // TODO: Implement Google signup logic
-    console.log('Google signup clicked');
+    setGoogleSignupComingSoon(true);
+    setTimeout(() => {
+      setGoogleSignupComingSoon(false); // Hide the "Coming Soon" message after a short delay
+    }, 3000);
   };
 
   return (
@@ -119,6 +123,14 @@ const VolunteerSignupPage: React.FC = () =>  {
         </div>
 
         <div className="mt-8">
+          {/* Google Signup Button Section */}
+          {/* Show "Coming Soon" message if Google Signup clicked */}
+          {isGoogleSignupComingSoon && (
+            <div className="mb-4 text-center text-yellow-600 font-medium">
+              Feature Coming Soon!
+            </div>
+          )}
+
           <button
             onClick={handleGoogleSignup}
             className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 ease-in-out hover:shadow-lg"
