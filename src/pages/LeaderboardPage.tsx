@@ -137,13 +137,13 @@ const LeaderboardPage: React.FC = () => {
                     whileTap={{ scale: 0.99 }}
                     className={`${index < 3 ? 'bg-yellow-900/30' : 'bg-gray-800/30'} transition-all duration-200 hover:shadow-lg`}
                   >
-                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                    <td className="px-2 sm:px-6 py-4">
                       <div className="flex items-center">
-                        <span className="text-sm font-medium text-white">{index + 1}</span>
-                        {index < 3 && <Trophy className="ml-2 h-4 sm:h-5 w-4 sm:w-5 text-yellow-400" />}
+                        <span className="text-xs sm:text-sm font-medium text-white">{index + 1}</span>
+                        {index < 3 && <Trophy className="ml-1 sm:ml-2 h-4 sm:h-5 w-4 sm:w-5 text-yellow-400" />}
                       </div>
                     </td>
-                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                    <td className="px-3 sm:px-6 py-4">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10">
                           <img 
@@ -152,21 +152,23 @@ const LeaderboardPage: React.FC = () => {
                             alt="" 
                           />
                         </div>
-                        <div className="ml-2 sm:ml-4">
-                          <div className="text-xs sm:text-sm font-medium text-white">{volunteer.name}</div>
+                        <div className="ml-2 sm:ml-4 min-w-0">
+                          <div className="text-xs sm:text-sm font-medium text-white break-words max-w-[100px] sm:max-w-none">
+                            {volunteer.name}
+                          </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                    <td className="px-2 sm:px-6 py-4">
                       <div className="flex items-center text-xs sm:text-sm text-gray-300">
-                        <Clock className="mr-1 sm:mr-2 h-4 sm:h-5 w-4 sm:w-5 text-blue-400" />
+                        <Clock className="mr-1 h-4 sm:h-5 w-4 sm:w-5 text-blue-400" />
                         {volunteer.hours}
                       </div>
                     </td>
-                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-300">
+                    <td className="px-2 sm:px-6 py-4 text-xs sm:text-sm text-gray-300">
                       {volunteer.tasks}
                     </td>
-                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                    <td className="px-2 sm:px-6 py-4">
                       <div className="flex items-center text-xs sm:text-sm text-gray-300">
                         <Star className="mr-1 h-4 sm:h-5 w-4 sm:w-5 text-yellow-400" />
                         {volunteer.rating.toFixed(1)}
