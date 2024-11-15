@@ -28,14 +28,20 @@ const Navbar: React.FC = () => {
       ? "block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
       : "px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white";
 
+    const handleClick = () => {
+      if (isMobile) {
+        setIsMenuOpen(false);
+      }
+    };
+
     return (
       <>
-        <Link to="/" className={baseClasses}>Home</Link>
+        <Link to="/" className={baseClasses} onClick={handleClick}>Home</Link>
         
         {!isAuthenticated && (
           <>
-            <Link to="/about" className={baseClasses}>Learn More</Link>
-            <Link to="/signup" className={`${baseClasses} text-blue-600 hover:text-blue-700`}>
+            <Link to="/about" className={baseClasses} onClick={handleClick}>Learn More</Link>
+            <Link to="/signup" className={`${baseClasses} text-blue-600 hover:text-blue-700`} onClick={handleClick}>
               Get Started
             </Link>
           </>
@@ -43,17 +49,17 @@ const Navbar: React.FC = () => {
         
         {isAuthenticated && userType === 'volunteer' && (
           <>
-            <Link to="/volunteer-dashboard" className={baseClasses}>Volunteer Dashboard</Link>
-            <Link to="/leaderboard" className={baseClasses}>Leaderboard</Link>
-            <Link to="/community" className={baseClasses}>Community</Link>
-            <Link to="/profile" className={baseClasses}>Profile</Link>
+            <Link to="/volunteer-dashboard" className={baseClasses} onClick={handleClick}>Volunteer Dashboard</Link>
+            <Link to="/leaderboard" className={baseClasses} onClick={handleClick}>Leaderboard</Link>
+            <Link to="/community" className={baseClasses} onClick={handleClick}>Community</Link>
+            <Link to="/profile" className={baseClasses} onClick={handleClick}>Profile</Link>
           </>
         )}
 
         {isAuthenticated && userType === 'organization' && (
           <>
-            <Link to="/organization-dashboard" className={baseClasses}>Organization Dashboard</Link>
-            <Link to="/organization/profile" className={baseClasses}>Organization Profile</Link>
+            <Link to="/organization-dashboard" className={baseClasses} onClick={handleClick}>Organization Dashboard</Link>
+            <Link to="/organization/profile" className={baseClasses} onClick={handleClick}>Organization Profile</Link>
           </>
         )}
       </>
