@@ -86,6 +86,23 @@ const VolunteerDashboard: React.FC = () => {
 
   const handleApply = async (opportunityId: number) => {
     try {
+      // Immediately update the UI
+      const opportunityIndex = opportunities.findIndex(opp => opp.id === opportunityId);
+      if (opportunityIndex !== -1) {
+        const updatedOpportunities = [...opportunities];
+        const currentOpportunity = updatedOpportunities[opportunityIndex];
+        
+        if (applicationStatuses[opportunityId]) {
+          // If withdrawing
+          currentOpportunity.volunteers_registered -= 1;
+        } else {
+          // If applying
+          currentOpportunity.volunteers_registered += 1;
+        }
+        
+        setOpportunities(updatedOpportunities);
+      }
+      
       const response = await applyForOpportunity(opportunityId);
       
       if (response.status === 'withdrawn') {
@@ -101,6 +118,8 @@ const VolunteerDashboard: React.FC = () => {
     } catch (error) {
       console.error('Error:', error);
       showNotification('Operation failed', 'error');
+      // Revert the optimistic update
+      loadOpportunities();
     }
   };
 
